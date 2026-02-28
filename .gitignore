@@ -1,0 +1,37 @@
+# .gitignore
+# Generated for TeachTech PHP project
+
+# ── Environment & Secrets ─────────────────────────────────────
+.env
+.env.*
+.env.local
+
+# ── Composer / Dependencies ───────────────────────────────────
+/vendor/
+# composer.lock IS committed — application projects need it for reproducible installs.
+
+# ── Uploaded files & Runtime data ────────────────────────────
+/asset/*
+!/asset/.gitkeep
+!/asset/logo.png
+!/asset/.htaccess
+
+/uploads/
+/pdfs/
+/videos/
+
+# ── Logs ──────────────────────────────────────────────────────
+/logs/*
+!/logs/.gitkeep
+
+# ── OS & IDE ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+
+# ── Caches and Test Artifacts ────────────────────────────────
+.phpunit.result.cache
+/.phpunit.cache/
+/coverage/
