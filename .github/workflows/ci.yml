@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  lint-and-test:
+    name: PHP Lint + PHPUnit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, mysqli, fileinfo
+          coverage: none
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: PHP Syntax Lint (all PHP files)
+        run: |
+          find . \
+            -name "*.php" \
+            -not -path "*/vendor/*" \
+            -not -path "*/legacy/*" \
+            -not -path "*/.git/*" \
+            | xargs -P4 -I{} php -l {}
+          echo "Syntax check passed."
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --prepend tests/prepend.php --testdox
